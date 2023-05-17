@@ -7,7 +7,7 @@ public class Ejercicio3 {
             fecha.setDia(2);
             fecha.setMes(2);
         }catch (DayException e){
-            System.out.println(e.toString());
+            System.out.println(e);
         }catch (MonthException e){
             System.out.println(e);
         }
