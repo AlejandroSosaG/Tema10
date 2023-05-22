@@ -1,9 +1,6 @@
 package ejerciciosficheros;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class Ejercicio5 {
@@ -13,8 +10,8 @@ public class Ejercicio5 {
         Scanner sc = new Scanner(System.in);
         try {
             File fichero = new File(".\\src/ficheros/datos.txt");
-            FileWriter fr = new FileWriter(fichero);
-            BufferedWriter bw = new BufferedWriter(fr);
+            FileWriter fw = new FileWriter(fichero, true);
+            BufferedWriter bw = new BufferedWriter(fw);
             System.out.println("Introduzca su nombre");
             nombre = sc.nextLine();
             System.out.println("Introduzca su edad");
@@ -25,7 +22,6 @@ public class Ejercicio5 {
             bw.flush();
             bw.newLine();
             bw.close();
-            fr.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }finally {
