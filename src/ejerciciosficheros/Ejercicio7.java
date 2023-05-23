@@ -2,41 +2,52 @@ package ejerciciosficheros;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.BrokenBarrierException;
-
 public class Ejercicio7 {
-    static Scanner sc = new Scanner(System.in);
+    static Scanner sc;
     public static void main(String[] args) {
         int opc = 0;
+        String nombre;
+        int telefono;
         TreeMap<String, Integer> agenda = new TreeMap<>();
         try {
             File fichero = new File(".\\src/ficheros/agenda.txt");
             FileReader fr = new FileReader(fichero);
             BufferedReader br = new BufferedReader(fr);
-            FileWriter fw = new FileWriter(fichero, true);
+            FileWriter fw = new FileWriter(fichero);
             BufferedWriter bw = new BufferedWriter(fw);
-            if (fichero.exists()){
-            }
-            while (opc != 4){
+            sc = new Scanner(br);
+            if (fichero.exists()) {
+//                sc.next();
+//                while (sc.hasNext()){
+//                    nombre = sc.next();
+//                    telefono = sc.nextInt();
+//                    agenda.put(nombre, telefono);
+//                }
+            } else fichero.createNewFile();
+            sc = new Scanner(System.in);
+            while (opc != 4) {
                 opc = menu();
-                switch (opc){
+                switch (opc) {
                     case 1:
-                        String nombre;
-                        int telefono, cont = 0;
+                        int cont = 0;
                         boolean encontrado = false;
-                        System.out.println("Introduzca el nombre del nuevo contacto");
-                        sc.nextLine();
-                        nombre = sc.nextLine();
-                        System.out.println("Introduzca el número de teléfono");
-                        telefono = sc.nextInt();
-                        sc.nextLine();
                         for (int i = 0; i < agenda.size(); i++) {
                             cont++;
                         }
-                        if (agenda.containsValue(nombre))
-                            encontrado = true;
-                        if (!encontrado && cont<20)
-                            agenda.put(nombre, telefono);
+                        if (cont == 20) {
+                            System.out.println("No hay espacio para más contactos");
+                        } else {
+                            System.out.println("Introduzca el nombre del nuevo contacto");
+                            sc.nextLine();
+                            nombre = sc.nextLine();
+                            System.out.println("Introduzca el número de teléfono");
+                            telefono = sc.nextInt();
+                            sc.nextLine();
+                            if (agenda.containsValue(nombre))
+                                encontrado = true;
+                            if (!encontrado && cont < 20)
+                                agenda.put(nombre, telefono);
+                        }
                         break;
                     case 2:
                         System.out.println("Introduzca el nombre del contacto que desea buscar");
@@ -49,9 +60,6 @@ public class Ejercicio7 {
                         System.out.println(agenda);
                         break;
                     case 4:
-                        if (!fichero.exists())
-                            fichero.createNewFile();
-                        System.out.println(agenda);
                         bw.write(String.valueOf(agenda));
                         bw.flush();
                         bw.newLine();
@@ -62,14 +70,17 @@ public class Ejercicio7 {
             }
             bw.close();
             fw.close();
+            br.close();
+            fr.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }finally {
+        } finally {
             sc.close();
         }
     }
-    public static int menu(){
-        int opc = 0;
+
+    public static int menu() {
+        int opc;
         System.out.println("1. Nuevo contacto.\n" +
                 "2. Buscar por nombre.\n" +
                 "3. Mostrar todo.\n" +
