@@ -10,19 +10,16 @@ public class Ejercicio7 {
         int telefono;
         TreeMap<String, Integer> agenda = new TreeMap<>();
         try {
-            File fichero = new File(".\\src/ficheros/agenda.txt");
+            File fichero = new File("src/ficheros/agenda.txt");
             FileReader fr = new FileReader(fichero);
             BufferedReader br = new BufferedReader(fr);
-            FileWriter fw = new FileWriter(fichero);
-            BufferedWriter bw = new BufferedWriter(fw);
             sc = new Scanner(br);
             if (fichero.exists()) {
-//                sc.next();
-//                while (sc.hasNext()){
-//                    nombre = sc.next();
-//                    telefono = sc.nextInt();
-//                    agenda.put(nombre, telefono);
-//                }
+                while (sc.hasNext()){
+                    nombre = sc.next();
+                    telefono = sc.nextInt();
+                    agenda.put(nombre, telefono);
+                }
             } else fichero.createNewFile();
             sc = new Scanner(System.in);
             while (opc != 4) {
@@ -57,19 +54,30 @@ public class Ejercicio7 {
                             System.out.println("Su teléfono es: " + agenda.get(nombre));
                         break;
                     case 3:
-                        System.out.println(agenda);
+                        if (agenda.isEmpty()) {
+                            System.out.println("La agenda está vacía");
+                        } else {
+                            for (Map.Entry<String, Integer> entry : agenda.entrySet()) {
+                                System.out.println("" + entry.getKey() + " " + entry.getValue());
+                            }
+                        }
                         break;
                     case 4:
-                        bw.write(String.valueOf(agenda));
+                        FileWriter fw = new FileWriter(fichero, false);
+                        BufferedWriter bw = new BufferedWriter(fw);
+                        for (Map.Entry<String, Integer> entry : agenda.entrySet()) {
+                            bw.write(("" + entry.getKey() + " " + entry.getValue()));
+                            bw.newLine();
+                        }
                         bw.flush();
-                        bw.newLine();
+                        bw.close();
+                        fw.close();
                         break;
                     default:
                         System.out.println("Opción no válida.");
                 }
             }
-            bw.close();
-            fw.close();
+
             br.close();
             fr.close();
         } catch (IOException e) {
