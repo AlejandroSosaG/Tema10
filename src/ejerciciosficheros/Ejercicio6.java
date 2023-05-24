@@ -24,9 +24,9 @@ public class Ejercicio6 {
                 ficheroSalida.createNewFile();
             for (int i = 0; i < lista.size(); i++) {
                 System.out.println(lista.get(i));
-                bw.write(lista.get(i));
-                bw.flush();
+                bw.write(lista.get(i).toString());
                 bw.newLine();
+                bw.flush();
             }
             bw.close();
             fw.close();
